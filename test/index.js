@@ -5,7 +5,7 @@ const {MongoClient} = require("mongodb");
 async function run(argument) {
 	const db = (await MongoClient.connect('mongodb://localhost:27017/workOrder')).db("workOrder");
 	const wo = workOrder({
-		db: {
+		collection: {
 			list:db.collection("list"),
 			log: db.collection("log"),
 		}
@@ -37,7 +37,6 @@ async function run(argument) {
 			} else if(handle === "reject") {
 				return {
 					status: 2,
-					flag: [],
 				}
 			}
 		}});
@@ -45,10 +44,16 @@ async function run(argument) {
 	console.log(await wo.get(id));
 	console.log(await wo.handle(id, {handle: "reject", user:"asda"}));
 	console.log(await wo.get(id));
-	console.log(await wo.open(id, "user"));
+	console.log(await wo.open(id, {user: "user"}));
 	console.log(await wo.handle(id, {handle: "adopt", user:"asda"}));
 	console.log(await wo.handle(id, {handle: "adopt", user:"asda"}));
 	console.log(await wo.get(id));
+	try {
+		console.log(await wo.handle(id, {handle: "adopt", user:"asda"}));
+	} catch(e) {
+		console.error(e);
+	}
+	process.exit();
 }
 
 
