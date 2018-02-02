@@ -90,6 +90,15 @@ API说明
 * `id`{Id | Id[]} - 工单Id，要获取信息的工单Id或工单Id数组  
 
 ###返回值说明  
+* 返回值类型为{workOrder | workOrder[]}  
+* 如果参数为{Id[]}类型，则返回值为{workOrder[]}  
+* 如果参数为{Id}类型，则返回值为{workOrder}, 但如果找不到对应工单将抛出错误  
+
+###错误说明  
+* `工单无效`{OperationError} - 工单ID不符合格式  
+* `找不到此工单`{OperationError} - 没有对应的工单  
+* `*`{MongodbError} - 此操作可能抛出数据库级别的错误  
+
 
 
 ##async function handle(id, {handle, group, flag, user, explain})  
@@ -103,7 +112,17 @@ API说明
 * `options.explain`{String} - 工单处理说明，用作日志  
 
 ###返回值说明  
+* 返回值类型为{Boolean}  
+* 返回值表示是否处理工单成功  
 
+###错误说明  
+* `工单无效`{OperationError} - 工单ID不符合格式  
+* `操作无效`{OperationError} - 操作没有实际效果或不能存在此操作  
+* `找不到此工单`{OperationError} - 没有对应的工单  
+* `工单组不一致`{OperationError} - 工单不属于限制的工单组  
+* `找不到操作`{OperationError} - 此次启动后工单组未设置，或已被移除  
+* `工单标志无交集`{OperationError} - 工单工单标志范围无交集  
+* `*`{MongodbError} - 此操作可能抛出数据库级别的错误  
 
 
 ##async function list({status, title, group, flag, user, historyUser, historyFlag, category, skip = 0, limit = 30})  
