@@ -1,7 +1,17 @@
 API说明
 ========  
+##wo = workOrder({collection: {list, log}})  
+创建一个工单管理器  
+###参数说明  
+* `options.collection.list`{MongodbCollection} - 用于存储工单列表的MongoDB集合  
+* `options.collection.log`{MongodbCollection} - 用于存储工单日志的MongoDB集合  
 
-##async function getLog(refid)  
+###返回值说明
+* 返回值类型为{Object}  
+* 返回值为一个工单管理实例  
+* 具体方法如下：  
+
+##async wo.getLog(refid)  
 **异步**获取日志  
 ###参数说明  
 * `refid`{Id} - 工单Id  
@@ -14,7 +24,7 @@ API说明
 * `*`{MongodbError} - 此操作可能抛出数据库级别的错误  
 
 
-##async function create({group, title, flag, refid, user, category})  
+##async wo.create({group, title, flag, refid, user, category})  
 **异步**创建工单  
 ###参数说明  
 * `options.group`{String} - 工单分组，使用者自定义的分组  
@@ -36,7 +46,7 @@ API说明
 * `*`{MongodbError} - 此操作可能抛出数据库级别的错误  
 
 
-##async function close(id, user)  
+##async wo.close(id, user)  
 **异步**关闭工单  
 ###参数说明  
 * `id`{Id} - 工单Id，要关闭的工单的Id  
@@ -52,7 +62,7 @@ API说明
 * `*`{MongodbError} - 此操作可能抛出数据库级别的错误  
 
 
-##async function open(id, user)  
+##async wo.open(id, user)  
 **异步**重新开放驳回的工单  
 ###参数说明  
 * `id`{Id} - 工单Id，要打开的工单的Id  
@@ -69,7 +79,7 @@ API说明
 * `工单无效`{OperationError} - 工单ID不符合格式  
 * `*`{MongodbError} - 此操作可能抛出数据库级别的错误  
 
-##async function remove(id)  
+##async wo.remove(id)  
 **异步**移除工单  
 ###参数说明  
 * `id`{Id} - 工单Id，要移除的工单的Id  
@@ -84,15 +94,15 @@ API说明
 * `*`{MongodbError} - 此操作可能抛出数据库级别的错误  
 
 
-##async function get(id)  
+##async wo.get(id)  
 **异步**获取工单信息  
 ###参数说明  
 * `id`{Id | Id[]} - 工单Id，要获取信息的工单Id或工单Id数组  
 
 ###返回值说明  
-* 返回值类型为{workOrder | workOrder[]}  
-* 如果参数为{Id[]}类型，则返回值为{workOrder[]}  
-* 如果参数为{Id}类型，则返回值为{workOrder}, 但如果找不到对应工单将抛出错误  
+* 返回值类型为{WorkOrder | WorkOrder[]}  
+* 如果参数为{Id[]}类型，则返回值为{WorkOrder[]}  
+* 如果参数为{Id}类型，则返回值为{WorkOrder}, 但如果找不到对应工单将抛出错误  
 
 ###错误说明  
 * `工单无效`{OperationError} - 工单ID不符合格式  
@@ -100,8 +110,7 @@ API说明
 * `*`{MongodbError} - 此操作可能抛出数据库级别的错误  
 
 
-
-##async function handle(id, {handle, group, flag, user, explain})  
+##async wo.handle(id, {handle, group, flag, user, explain})  
 **异步**处理工单  
 ###参数说明  
 * `id`{Id} - 工单Id，要处理的工单Id  
@@ -125,7 +134,7 @@ API说明
 * `*`{MongodbError} - 此操作可能抛出数据库级别的错误  
 
 
-##async function list({status, title, group, flag, user, historyUser, historyFlag, category, skip = 0, limit = 30})  
+##async wo.list({status, title, group, flag, user, historyUser, historyFlag, category, skip = 0, limit = 30})  
 **异步**获取工单列表  
 ###参数说明  
 * `options.status`{Number} - *可选的*工单状态，必须为非负整数  
@@ -140,9 +149,14 @@ API说明
 * `options.limit`{Number} - *可选的*最大返回数量，默认值为30  
 
 ###返回值说明  
+* 返回值类型为{QueryList<WorkOrder>}  
+* 返回值表示获取到的结果  
+
+###错误说明  
+* `*`{MongodbError} - 此操作可能抛出数据库级别的错误  
 
 
-##function setGroup(group, {title, getOption, handle, flag, option})  
+##wo.setGroup(group, {title, getOption, handle, flag, option})  
 设置工单组  
 ###参数说明  
 * `group`{String} - 工单组Id  
@@ -153,26 +167,61 @@ API说明
 * `options.option`{Object<String>} - 工单选项的处理说明  
 
 ###返回值说明  
+* 返回值类型为{Boolean}  
+* 返回值表示是否设置工单组成功  
+
+###错误说明  
+* 此方法不会抛出错误  
 
 
-##function removeGroup(group)  
+##wo.removeGroup(group)  
 移除工单组  
 ###参数说明  
 * `group`{String} - 工单组Id  
 
 ###返回值说明  
+* 返回值类型为{Boolean}  
+* 返回值表示是否移除工单组成功  
+
+###错误说明  
+* 此方法不会抛出错误  
 
 
-##function getGroupList()  
-获取工单组列表  
+##wo.closeGroup(group)  
+关闭工单组内全部工单  
+###参数说明  
+* `group`{String} - 工单组Id  
+
 ###返回值说明  
+* 此函数无返回值  
+
+###错误说明  
+* `*`{MongodbError} - 此操作可能抛出数据库级别的错误  
+
+###其他说明
+* 通过此方法关闭的工单，不会追加日志  
 
 
-##function getGroup(group)  
+##wo.getGroupList()  
+获取工单组列表  
+###参数说明  
+* 此方法无参数  
+
+###返回值说明  
+* 返回值类型为{String[]}  
+* 返回值为有效的工作组id的数组  
+
+##wo.getGroup(group)  
 获取工单组信息  
 ###参数说明  
 * `group`{String} - 工单组Id  
 
 ###返回值说明  
+* 返回值类型为{GroupInfo}  
+* 返回值为工作组信息  
+* 但如果工作组不存在，则返回`null`  
+
+###错误说明  
+* `*`{MongodbError} - 此操作可能抛出数据库级别的错误  
 
 
