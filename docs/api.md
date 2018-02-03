@@ -156,13 +156,28 @@ API说明
 * `*`{MongodbError} - 此操作可能抛出数据库级别的错误  
 
 
+##async wo.getUserFlag(group, user)  
+**异步**获取用户可用标志  
+###参数说明  
+* `group`{String} - 工单组Id  
+* `user`{String} - 用户Id  
+
+###返回值说明  
+* 返回值类型为{String[]}  
+* 返回值表示此用户可操作的标志  
+
+###错误说明  
+* 此方法不会抛出错误  
+
+
 ##wo.setGroup(group, {title, getOption, handle, flag, option})  
 设置工单组  
 ###参数说明  
 * `group`{String} - 工单组Id  
 * `options.title`{String} - 工单组名称  
-* `options.getOption`{Function} - 获取工单的处理选项  
+* `options.getOption`{Function} - 获取工单的处理选项的函数  
 * `options.handle`{Function} - 对工单处理的函数  
+* `getUserFlag`{Function} - 获取用户可操作标志的函数  
 * `options.flag`{Object<String>} - 工单标志的说明  
 * `options.option`{Object<String>} - 工单选项的处理说明  
 
@@ -210,6 +225,23 @@ API说明
 ###返回值说明  
 * 返回值类型为{String[]}  
 * 返回值为有效的工作组id的数组  
+
+###错误说明  
+* 此方法不会抛出错误  
+
+
+##wo.getGroupTitleList()  
+获取工单组Id及标题列表  
+###参数说明  
+* 此方法无参数  
+
+###返回值说明  
+* 返回值类型为{String[][]}  
+* 返回值为有效的[工作组id, 工作组标题]的数组  
+
+###错误说明  
+* 此方法不会抛出错误  
+
 
 ##wo.getGroup(group)  
 获取工单组信息  

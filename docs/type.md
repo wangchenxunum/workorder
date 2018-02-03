@@ -39,5 +39,6 @@ Id 可以是Mongodb的ObjectId，也可以是24为16进制字符串
 * `title`{String} - 工单组名称  
 * `getOption`{Function} - 获取工单的处理选项  
 * `handle`{Function} - 对工单处理的函数  
+* `getUserFlag`{Function} - 获取用户可操作标志的函数  
 * `flag`{Object<String>} - 工单标志的说明  
 * `option`{Object<String>} - 工单选项的处理说明  
