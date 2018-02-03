@@ -39,6 +39,8 @@ async function run(argument) {
 					status: 2,
 				}
 			}
+		}, getUserFlag(group, user) {
+			return ["a", "b"];
 		}});
 	const id = await wo.create({group, title:"测试工单", flag:["a"], refid:"1", user:"1111", category:{x:["x"]}});
 	console.log(await wo.get(id));
@@ -51,7 +53,8 @@ async function run(argument) {
 	try {
 		console.log(await wo.handle(id, {handle: "adopt", user:"asda"}));
 	} catch(e) {
-		console.error(e);
+		console.log("因为工单已经完成，所以会出现如下的“找不到工单”错误：");
+		console.log(e);
 	}
 	process.exit();
 }
