@@ -156,11 +156,11 @@ API说明
 * `*`{MongodbError} - 此操作可能抛出数据库级别的错误  
 
 
-##async wo.getUserFlag(group, user)  
+##async wo.getUserFlag(group, ...args)  
 **异步**获取用户可用标志  
 ###参数说明  
 * `group`{String} - 工单组Id  
-* `user`{String} - 用户Id  
+* `args`{...any} - 用于获取标志的相关参数，由使用者自行定义  
 
 ###返回值说明  
 * 返回值类型为{String[]}  
